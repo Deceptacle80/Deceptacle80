@@ -51,16 +51,19 @@ rooms = {
     "Cafeteria": {'East': 'Cryo-Room', 'Item': 'Cattle Prod'},
     "Derelict Spacecraft": {'West': 'Prep Room', 'Item': 'Space Helmet(Slightly Damaged)'},
     "Control Room": {'East': 'Shuttle to Earth', 'South': 'Cryo-Room', 'Item': 'Access Badge'},
-    "Shuttle to Earth": {"West": 'Control Room', 'Item': 'Jonesy'},
+    "Shuttle to Earth": {'West': 'Control Room', 'Item': 'Jonesy'},
     "Med Lab": {'North': 'Air Ducts', 'West': "Cryo-Room", 'Item': 'Flamethrower(left behind)'},
-    "Air Ducts": {"South": "Med Lab", "Item": 'Villain'},
+    "Air Ducts": {'South': 'Med Lab', 'Item': 'Villain'}
 }
 
 valid_moves = ['North', 'South', 'East', 'West']
-inventory = []
-current_room = "Cryo-Room"
+
+def reset():
+    inventory = []
+    current_room = "Cryo-Room"
 
 show_instructions()
+reset()
 
 while True:
     print(f"You are in the {current_room}\n")
@@ -71,9 +74,9 @@ while True:
         print("You have left the game. Please come back again")
         exit(0)
     elif move not in valid_moves:
-        print("Please  enter a valid move")
+        print("Please enter a valid move")
     elif move not in rooms[current_room]:
-        print("There is a wall in that direction. Please enter another direction.\n")
+        print("There is a wall in that direction. Please enter another direction.")
     else:
         current_room = rooms[current_room][move]
 
@@ -82,10 +85,14 @@ while True:
                 print("You encountered the Xenomorph and did not survive.")
                 print("You have my sympathies.\n")
                 print("GAME OVER!")
-
             else:
-                print("Congratulations. You have reached the Shuttle! Enjoy the trip back to Earth.")
-            exit(0)
+                print("Congratulations. You have reached the Shuttle! Enjoy the trip back to Earth.\n")
+            replay = input("Would you like to play again? ").title()
+            if replay == "Yes":
+                reset()
+                continue
+            else:
+                break
         else:
             if "Item" in rooms[current_room]:
                 if rooms[current_room]["Item"] not in inventory:
